@@ -74,8 +74,8 @@ func TestEnvFile_Parse(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			file := NewEnvFile(tt.content)
-			file.Parse()
+			file := newEnvFile(tt.content)
+			file.parse()
 
 			if len(file.env) != len(tt.expectedEnv) {
 				t.Errorf("got %d variables, want %d", len(file.env), len(tt.expectedEnv))

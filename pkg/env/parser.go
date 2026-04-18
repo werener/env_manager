@@ -5,7 +5,11 @@ import (
 	"strings"
 )
 
-func (file *EnvFile) Parse() error {
+func (file *EnvFile) addError(err error) {
+	file.accumulatedErrors = append(file.accumulatedErrors, err)
+}
+
+func (file *EnvFile) parse() error {
 	lineNumber := 0
 	for expr := range strings.Lines(file.content) {
 		lineNumber++
@@ -59,8 +63,4 @@ func parseValue(value string) (string, error) {
 		value = strings.TrimSuffix(value, "\"")
 	}
 	return value, nil
-}
-
-func (file EnvFile) GetEnv() map[string]string {
-	return file.env
 }

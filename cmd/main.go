@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/werener/env_manager/internal/env"
+	"github.com/werener/env_manager/pkg/env"
 )
 
 func main() {
@@ -22,11 +22,16 @@ func main() {
 }
 
 func run(envPath string) error {
-	file := env.OpenEnvFile(envPath)
-	err := file.Parse()
+	file, err := env.Load(envPath)
 
-	for _, e := range file.AccumulatedErrors {
+	fmt.Printf("Erorrs, that occured during parsing %s:\n", envPath)
+	for _, e := range file.GetErrors() {
 		fmt.Println(e)
 	}
+	fmt.Printf("\nKey-Value pairs, that were extracted from %s:\n", envPath)
+	for k, v := range file.GetEnv() {
+		fmt.Printf("%s - %s\n", k, v)
+	}
+
 	return err
 }
