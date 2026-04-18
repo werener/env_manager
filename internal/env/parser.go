@@ -17,7 +17,7 @@ func (file *EnvFile) Parse() error {
 
 		key, value, parseErr := parseExpr(expr)
 		if parseErr != nil {
-			file.addError(fmt.Errorf("%s. Line:", parseErr))
+			file.addError(fmt.Errorf("%s: Line %d", parseErr, lineNumber))
 			continue
 		}
 
