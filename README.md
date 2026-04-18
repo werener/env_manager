@@ -1,3 +1,3 @@
 # TODO
-1. Public API for this 'library'
+1. Godoc 
 2. Variable support
