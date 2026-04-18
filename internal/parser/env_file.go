@@ -1,6 +1,6 @@
 package parser
 
-import "env_manager/internal/reader"
+import "github.com/werener/env_manager/internal/reader"
 
 type EnvFile struct {
 	variables map[string]string

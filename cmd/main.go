@@ -1,9 +1,10 @@
 package main
 
 import (
-	"env_manager/internal/parser"
 	"fmt"
 	"os"
+
+	"github.com/werener/env_manager/internal/parser"
 )
 
 func main() {
