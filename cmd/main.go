@@ -16,10 +16,14 @@ func main() {
 		os.Exit(1)
 	}
 
-	run(os.Args[1])
+	if err := run(os.Args[1]); err != nil {
+		fmt.Println()
+	}
 }
 
-func run(envPath string) {
+func run(envPath string) error {
 	file := parser.NewEnvFile(envPath)
-	file.Parse()
+	err := file.Parse()
+
+	return err
 }
