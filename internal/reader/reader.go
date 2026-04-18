@@ -1,14 +1,10 @@
 package reader
 
 import (
-	"log"
 	"os"
 )
 
-func OpenEnv(path string) string {
+func OpenEnv(path string) (string, error) {
 	data, err := os.ReadFile(path)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return string(data)
+	return string(data), err
 }
