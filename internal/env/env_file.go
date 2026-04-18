@@ -7,14 +7,14 @@ import (
 type EnvFile struct {
 	env               map[string]string
 	content           string
-	accumulatedErrors []error
+	AccumulatedErrors []error
 }
 
 func OpenEnvFile(env_path string) EnvFile {
 	return EnvFile{
 		env:               map[string]string{},
 		content:           reader.OpenEnv(env_path),
-		accumulatedErrors: []error{},
+		AccumulatedErrors: []error{},
 	}
 }
 
@@ -22,10 +22,10 @@ func NewEnvFile(content string) EnvFile {
 	return EnvFile{
 		env:               map[string]string{},
 		content:           content,
-		accumulatedErrors: []error{},
+		AccumulatedErrors: []error{},
 	}
 }
 
 func (file *EnvFile) addError(err error) {
-	file.accumulatedErrors = append(file.accumulatedErrors, err)
+	file.AccumulatedErrors = append(file.AccumulatedErrors, err)
 }

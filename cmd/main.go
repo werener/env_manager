@@ -25,5 +25,8 @@ func run(envPath string) error {
 	file := env.OpenEnvFile(envPath)
 	err := file.Parse()
 
+	for _, e := range file.AccumulatedErrors {
+		fmt.Println(e)
+	}
 	return err
 }

@@ -54,14 +54,22 @@ func TestEnvFile_Parse(t *testing.T) {
 				"GOODBYE": "WORLD!",
 			},
 		},
-		// {
-		// 	name:    "with non-assigning lines",
-		// 	content: "FOO=bar\nINVALID_LINE\nBAZ=qux",
-		// 	expected: map[string]string{
-		// 		"FOO": "bar",
-		// 		"BAZ": "qux",
-		// 	},
-		// },
+		{
+			name:    "with non-assigning lines",
+			content: "FOO=bar\nINVALID_LINE\nBAZ=qux",
+			expectedEnv: map[string]string{
+				"FOO": "bar",
+				"BAZ": "qux",
+			},
+		},
+		{
+			name:    "with quotation marks",
+			content: "\nHELLO=\"WORLD\"\n    \t\nGOODBYE=\"WORLD!\"",
+			expectedEnv: map[string]string{
+				"HELLO":   "WORLD",
+				"GOODBYE": "WORLD!",
+			},
+		},
 	}
 
 	for _, tt := range tests {
