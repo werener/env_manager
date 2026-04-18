@@ -1,4 +1,4 @@
-package parser
+package env
 
 import (
 	"testing"
@@ -66,10 +66,7 @@ func TestEnvFile_Parse(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			file := EnvFile{
-				content: tt.content,
-				env:     make(map[string]string),
-			}
+			file := NewEnvFile(tt.content)
 			file.Parse()
 
 			if len(file.env) != len(tt.expectedEnv) {

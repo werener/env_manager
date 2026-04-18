@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/werener/env_manager/internal/parser"
+	"github.com/werener/env_manager/internal/env"
 )
 
 func main() {
@@ -22,7 +22,7 @@ func main() {
 }
 
 func run(envPath string) error {
-	file := parser.NewEnvFile(envPath)
+	file := env.OpenEnvFile(envPath)
 	err := file.Parse()
 
 	return err
