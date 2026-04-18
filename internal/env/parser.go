@@ -15,26 +15,9 @@ func (file *EnvFile) Parse() error {
 			continue
 		}
 
-		key, value, hasAssignment := strings.Cut(expr, "=")
-		if !hasAssignment {
-			file.addError(fmt.Errorf("Line without assignment. Line: %d", lineNumber))
-			continue
-		}
-
-		key = strings.TrimSpace(key)
-		value, valueErr := parseValue(value, lineNumber)
-		if valueErr != nil {
-			file.addError(valueErr)
-			continue
-		}
-
-		if len(key) == 0 {
-			file.addError(fmt.Errorf("No key provided. Line: %d", lineNumber))
-			continue
-		}
-
-		if len(value) == 0 {
-			file.addError(fmt.Errorf("No value provided. Line: %d", lineNumber))
+		key, value, parseErr := parseExpr(expr)
+		if parseErr != nil {
+			file.addError(fmt.Errorf("%s. Line:", parseErr))
 			continue
 		}
 
@@ -44,12 +27,34 @@ func (file *EnvFile) Parse() error {
 	return nil
 }
 
-func parseValue(value string, lineNumber int) (string, error) {
+func parseExpr(expr string) (string, string, error) {
+	key, value, hasAssignment := strings.Cut(expr, "=")
+	if !hasAssignment {
+		return "", "", fmt.Errorf("Non-empty line without assignment")
+	}
+
+	key = strings.TrimSpace(key)
+	value, valueParseErr := parseValue(value)
+
+	if valueParseErr != nil {
+		return "", "", valueParseErr
+	}
+	if len(key) == 0 {
+		return "", "", fmt.Errorf("No key provided")
+	}
+	if len(value) == 0 {
+		return "", "", fmt.Errorf("No value provided")
+	}
+
+	return key, value, nil
+}
+
+func parseValue(value string) (string, error) {
 	value = strings.TrimSpace(value)
 	if strings.HasPrefix(value, "\"") {
 		value = strings.TrimPrefix(value, "\"")
 		if !strings.HasSuffix(value, "\"") {
-			return "", fmt.Errorf("Unterminated quote: %d", lineNumber)
+			return "", fmt.Errorf("Unterminated quote")
 		}
 		value = strings.TrimSuffix(value, "\"")
 	}
