@@ -1,6 +1,4 @@
 # TODO
-1. Implement error accumulatiom
-2. Quotation marks support
-3. Public API for this 'library'
-4. Escape character support
-5. Variable support
+1. Public API for this 'library'
+2. Escape character support
+3. Variable support
