@@ -5,11 +5,15 @@ import (
 	"strings"
 )
 
+// addError is a shorthand for attaching
+// a new parsing error to the EnvFile.
 func (file *EnvFile) addError(err error) {
 	file.accumulatedErrors = append(file.accumulatedErrors, err)
 }
 
-func (file *EnvFile) parse() error {
+// parse fills the specified EnvFile with Key-Value pairs
+// and parsing errors.
+func (file *EnvFile) parse() {
 	lineNumber := 0
 	for expr := range strings.Lines(file.content) {
 		lineNumber++
@@ -27,10 +31,10 @@ func (file *EnvFile) parse() error {
 
 		file.env[key] = value
 	}
-
-	return nil
 }
 
+// parseExpr splits a provided expression into a Key-Value pair.
+// It returns either a Key-Value pair or a parsing error.
 func parseExpr(expr string) (string, string, error) {
 	key, value, hasAssignment := strings.Cut(expr, "=")
 	if !hasAssignment {
@@ -53,6 +57,8 @@ func parseExpr(expr string) (string, string, error) {
 	return key, value, nil
 }
 
+// parseValue extracts a value from a provided string.
+// It returns either the extracted value or a parsing error.
 func parseValue(value string) (string, error) {
 	value = strings.TrimSpace(value)
 	if strings.HasPrefix(value, "\"") {
